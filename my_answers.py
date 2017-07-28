@@ -39,9 +39,13 @@ def build_part1_RNN(window_size):
 def cleaned_text(text):
     punctuation = [' ', '!', ',', '.', ':', ';', '?']
     permitted_chars = list(string.ascii_lowercase) + punctuation
-    unqiue_chars = set(text)
+    unique_chars = set(text)
 
-    for char in unqiue_chars:
+    # for every char
+    # check if the char is a permitted char
+    # if not, replace it
+
+    for char in unique_chars:
         if char not in permitted_chars:
             text = text.replace(char, ' ')
 
@@ -53,13 +57,14 @@ def window_transform_text(text, window_size, step_size):
     inputs = []
     outputs = []
 
-    for i in range(len(text) - window_size):
+    # depending on the step size, get the i/o pairs
+
+    for i in range(0, len(text) - window_size, step_size):
         slider_window = i + window_size
         output = slider_window + 1
         inputs.append(text[i:slider_window])
         outputs.append(text[slider_window:output])
-        i += step_size - 1
-    return inputs,outputs
+    return inputs, outputs
 
 # TODO build the required RNN model: 
 # a single LSTM hidden layer with softmax activation, categorical_crossentropy loss 
